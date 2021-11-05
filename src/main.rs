@@ -28,7 +28,13 @@ async fn main() -> anyhow::Result<()> {
                 .unwrap();
             let resp = reqwest::get(url).await?;
 
-            let mut file = fs::File::open(&format!("./out/{}", filename)).await?;
+            let fp = format!("./out/{}", filename);
+            let mut file = fs::OpenOptions::new()
+                .write(true)
+                .read(true)
+                .create(true)
+                .open(&fp)
+                .await?;
 
             let mut stream = resp.bytes_stream();
             while let Some(item) = stream.next().await {
