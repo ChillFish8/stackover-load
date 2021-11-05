@@ -8,7 +8,7 @@ async fn main() -> anyhow::Result<()> {
     fs::create_dir_all("./out").await?;
 
     let urls = {
-        let content = fs::read_to_string("./target").await?;
+        let content = fs::read_to_string("./urls.txt").await?;
         content.split("\n")
             .map(|v| v.to_string())
             .collect::<Vec<String>>()
