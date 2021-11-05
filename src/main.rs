@@ -23,7 +23,7 @@ async fn main() -> anyhow::Result<()> {
         let handle = tokio::spawn(async move {
             let parsed = reqwest::Url::parse(&url)?;
             let filename = parsed.path()
-                .rsplitn(1, "/")
+                .rsplit( "/")
                 .next()
                 .unwrap();
             let resp = reqwest::get(url).await?;
