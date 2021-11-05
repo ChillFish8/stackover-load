@@ -29,6 +29,8 @@ async fn main() -> anyhow::Result<()> {
             let resp = reqwest::get(url).await?;
 
             let fp = format!("./out/{}", filename);
+            println!("creating file {}", &fp);
+
             let mut file = fs::OpenOptions::new()
                 .write(true)
                 .read(true)
