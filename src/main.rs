@@ -5,15 +5,19 @@ use tokio::io::AsyncWriteExt;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
+    println!("creating output file.");
     fs::create_dir_all("./out").await?;
 
+    println!("reading url file...");
     let urls = {
         let content = fs::read_to_string("./urls.txt").await?;
         content.split("\n")
             .map(|v| v.to_string())
             .collect::<Vec<String>>()
     };
+    println!("got urls");
 
+    println!("prepping {} urls", urls.len());
     let mut tasks = vec![];
     for url in urls {
         let handle = tokio::spawn(async move {
@@ -42,6 +46,7 @@ async fn main() -> anyhow::Result<()> {
 
     for task in tasks {
         task.await??;
+        println!("task complete!")
     }
 
     Ok(())
